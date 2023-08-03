@@ -21,6 +21,10 @@
       {
         "command": "commiter-ext.cgcli",
         "title": "Commiter Cgcli"
+      },
+      {
+        "command": "commiter-ext.commiter_gui",
+        "title": "Commiter Gui"
       }
     ]
   },

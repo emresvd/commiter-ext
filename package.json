@@ -1,5 +1,6 @@
 {
   "name": "commiter-ext",
+  "publisher": "emresvd",
   "displayName": "commiter_ext",
   "description": "",
   "version": "0.0.1",
@@ -16,6 +17,10 @@
       {
         "command": "commiter-ext.commiter",
         "title": "Commiter"
+      },
+      {
+        "command": "commiter-ext.cgcli",
+        "title": "Commiter Cgcli"
       }
     ]
   },

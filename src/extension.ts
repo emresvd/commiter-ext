@@ -3,6 +3,8 @@
 import * as vscode from 'vscode';
 import { exec } from 'child_process';
 
+let activeTerminal = null;
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -18,9 +20,20 @@ export function activate(context: vscode.ExtensionContext) {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
 
-		const terminal = vscode.window.createTerminal("Commiter Terminal");
-		terminal.sendText("commiter");
-		terminal.show();
+		if (vscode.window.terminals.length > 0) {
+			const terminal = vscode.window.terminals[0];
+			terminal.sendText("commiter");
+			terminal.show();
+		} else {
+			const terminal = vscode.window.createTerminal("Commiter Terminal");
+			terminal.sendText("commiter");
+			terminal.show();
+		}
+
+
+		// const terminal = vscode.window.createTerminal("commiter");
+		// terminal.sendText("commiter");
+		// terminal.show();
 
 		// exec('commiter', { cwd: vscode.workspace.rootPath },
 		// 	(err: any, stdout: any, stderr: any) => {

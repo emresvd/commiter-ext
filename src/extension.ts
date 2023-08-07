@@ -6,11 +6,11 @@ import * as vscode from 'vscode';
  * @param command The command to execute in the terminal.
  */
 function runCommand(command: string) {
-	if (vscode.window.terminals.length > 0) {
+	if (vscode.window.terminals.length > 0) { // If a terminal already exists, use that terminal
 		const terminal: vscode.Terminal = vscode.window.terminals[0];
 		terminal.sendText(command);
 		terminal.show();
-	} else {
+	} else { // Otherwise, create a new terminal
 		const terminal: vscode.Terminal = vscode.window.createTerminal(command);
 		terminal.sendText(command);
 		terminal.show();
@@ -23,19 +23,31 @@ function runCommand(command: string) {
  */
 export function activate(context: vscode.ExtensionContext) {
 	let disposable_commiter = vscode.commands.registerCommand('commiter-ext.commiter', () => {
-		runCommand("commiter");
+		vscode.window.showInputBox({ // Prompt the user for a commit message
+			placeHolder: "Enter commit message here",
+			prompt: "Commit message"
+		}).then((value) => {
+			if (value) { // If the user entered a commit message, run the commiter with that commit message
+				runCommand(`commiter ${value}`); // Run the commiter tool
+			} else { // Otherwise, run the commiter without a commit message
+				if (value === undefined) { // If the user canceled the prompt, return
+					return;
+				}
+				runCommand("commiter"); // Run the commiter tool
+			}
+		});
 	});
-	context.subscriptions.push(disposable_commiter);
+	context.subscriptions.push(disposable_commiter); // Add the command to the context subscriptions
 
 	let disposable_cgcli = vscode.commands.registerCommand('commiter-ext.cgcli', () => {
-		runCommand("cgcli");
+		runCommand("cgcli"); // Run the cgcli tool
 	});
-	context.subscriptions.push(disposable_cgcli);
+	context.subscriptions.push(disposable_cgcli); // Add the command to the context subscriptions
 
 	let disposable_commiter_gui = vscode.commands.registerCommand('commiter-ext.commiter_gui', () => {
-		runCommand("commiter_gui .");
+		runCommand("commiter_gui ."); // Run the commiter_gui tool
 	});
-	context.subscriptions.push(disposable_commiter_gui);
+	context.subscriptions.push(disposable_commiter_gui); // Add the command to the context subscriptions
 }
 
 /**
